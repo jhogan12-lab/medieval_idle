@@ -9,8 +9,6 @@ type GameState = {
 
 type PlayerState = { playerTownName: string };
 
-
-
 function isMobile() {
   if (typeof navigator === "undefined") return false;
   return /Mobi|Android/i.test(navigator.userAgent);
@@ -26,8 +24,6 @@ const townNames = [
   "Windmere",
   "Highrock",
 ];
-
-const MAX_VISIBLE_ICONS = 10;
 
 function getRandomTownName() {
   return townNames[Math.floor(Math.random() * townNames.length)];
@@ -60,8 +56,6 @@ export default function Index() {
     playerTownName: getRandomTownName(),
   });
 
-  const [editing, setEditing] = useState(false);
-  const [townInput, setTownInput] = useState(player.playerTownName);
   const [floatingTexts, setFloatingTexts] = useState<FloatingText[]>([]);
 
   useEffect(() => setMobile(isMobile()), []);
@@ -75,13 +69,6 @@ export default function Index() {
     setTimeout(() => {
       setFloatingTexts((prev) => prev.filter((t) => t.id !== id));
     }, 1000);
-  };
-
-  const handleDoubleClick = () => setEditing(true);
-  const handleTownSubmit = () => {
-    if (townInput.trim() !== "")
-      setPlayer({ playerTownName: townInput.trim() });
-    setEditing(false);
   };
 
   const buyGenerator = (generatorId: string) => {
@@ -136,7 +123,6 @@ export default function Index() {
     <div className="min-h-screen bg-yellow-50 flex flex-col items-center justify-center relative overflow-hidden">
       <h1
         className="text-4xl font-bold text-yellow-800 mb-6 cursor-pointer"
-        onDoubleClick={handleDoubleClick}
       >
         Welcome to Pax Romana
       </h1>
