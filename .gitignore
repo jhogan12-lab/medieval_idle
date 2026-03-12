@@ -1,0 +1,6 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/pax-romana-service/.vs
+/pax-romana-service/pax-romana-service/obj/Debug/net10.0
