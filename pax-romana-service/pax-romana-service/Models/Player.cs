@@ -2,10 +2,15 @@
 {
     public class Player
     {
-        public int PlayerId { get; set; }
-        public string? FirstName { get; set; }
-        public string? LastName { get; set; }
-        public string? Email { get; set; }
-        public int PlayerGold { get; set; }
+        public int Id { get; set; }
+        public string? Username { get; set; }
+        public string? EmailAddress { get; set; }
+        public string? PhoneNumber { get; set; }
+        public int Gold { get; set; }
+        public DateTime? CreatedDateTime { get; set; }
+        public DateTime LastUpdatedDateTime { get; set; }
+        public bool Active { get; set; }
+        public Generator[]? Generators { get; set; }
+
     }
 }
