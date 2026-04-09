@@ -1,6 +1,19 @@
 import { useEffect, useState } from "react";
 import Shop from "~/components/shop";
 import type { Generator } from "~/models/generator"
+import { getGenerators } from "~/controllers/generatorController";
+import type { LoaderFunctionArgs } from "react-router";
+
+export async function loader({ params }: LoaderFunctionArgs) {
+  try {
+    const generators = await getGenerators();
+
+    return generators;
+  } catch (error) {
+    console.error("Loader error:", error);
+    throw new Response("Failed to load generators", { status: 500 });
+  }
+}
 
 type GameState = {
   gold: number;

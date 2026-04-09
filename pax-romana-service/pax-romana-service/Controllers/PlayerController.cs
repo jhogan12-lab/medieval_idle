@@ -4,6 +4,8 @@ using pax_romana_service.Models;
 
 namespace pax_romana_service.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class PlayerController: ControllerBase
     {
         private readonly ILogger<PlayerController> _logger;

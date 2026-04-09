@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using pax_romana_service.Dependencies;
-using pax_romana_service.Models;
 
 namespace pax_romana_service.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class GeneratorController: ControllerBase
     {
         private readonly ILogger<GeneratorController> _logger;
@@ -16,19 +17,20 @@ namespace pax_romana_service.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Generator>> GetGenerators()
+        public async Task<IActionResult> GetGenerators()
         {
             try
             {
-                _logger.LogInformation("Received request to get generators.");
-                var generators = _repo.GetGenerators();
-                _logger.LogInformation("Retrieve {count} generators.", generators.Count());
-                return Ok(generators);
+                var result = await _repo.GetGenerators();
+                return Ok(result);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Error when getting Generators: {ex.Message}");
-                return BadRequest($"Error when getting Generators: {ex.Message}");
+                return StatusCode(500, new
+                {
+                    message = ex.Message,
+                    detail = ex.ToString()
+                });
             }
         }
 
