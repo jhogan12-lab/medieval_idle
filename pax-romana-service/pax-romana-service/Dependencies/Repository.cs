@@ -23,17 +23,16 @@ namespace pax_romana_service.Dependencies
 
         public async Task<IEnumerable<Generator>> GetGenerators()
         {
-            using (var connection = new SqlConnection(_config["ConnectionStrings:pax_romana"]))
-            {
-                await connection.OpenAsync();
 
-                IEnumerable<Generator> generators = await connection.QueryAsync<Generator>(
-                    "dbo.Generators_Get",
-                    commandType: CommandType.StoredProcedure
-                );
 
-                return generators;
-            }
+            using var cnn = new NpgsqlConnection(_config["ConnectionStrings:pax_romana"]);
+            await cnn.OpenAsync();
+
+            var generators = await cnn.QueryAsync<Generator>(
+                "SELECT * FROM dbo.generators_get();"
+            );
+
+            return generators;
         }
 
         #endregion

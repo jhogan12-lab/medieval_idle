@@ -1,7 +1,6 @@
-CREATE FUNCTION dbo.generators_get()
-RETURNS TABLE(id int, title text, description text, base_cost int, gold_per_second int, active boolean)
+CREATE OR REPLACE FUNCTION dbo.generators_get()
+RETURNS SETOF dbo.generators
 AS $$
-BEGIN
-    RETURN QUERY SELECT id, title, description, base_cost, gold_per_second, active FROM dbo.generators;
-END;
-$$ LANGUAGE plpgsql;
+    SELECT *
+    FROM dbo.generators;
+$$ LANGUAGE sql;

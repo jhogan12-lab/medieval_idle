@@ -24,6 +24,9 @@ export async function getGenerators(): Promise<Generator[]> {
     }
 
     const data: Generator[] = await response.json();
+    if (data.length > 0) {
+      console.log(`Successfully retrieved ${data.length} generators`)
+    }
     return data;
   } catch (err) {
     console.error("FULL FETCH ERROR:", err);
