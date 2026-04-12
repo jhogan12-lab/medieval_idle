@@ -23,17 +23,17 @@ namespace pax_romana_service.Controllers
         /// <param name="playerId"></param>
         /// <returns>A Player object</returns>
         [HttpGet("{playerId}")]
-        public ActionResult<Player> GetPlayerById([FromRoute] int playerId)
+        public ActionResult<Player> GetPlayerById([FromRoute] string playerId)
         {
             try
             {
-                if (playerId == 0)
+                if (String.IsNullOrEmpty(playerId))
                 {
                     _logger.LogError("PlayerId is not valid: {playerId}", playerId);
                     return BadRequest($"Error when getting player data: PlayerId is not valid {playerId}");
                 }
                 _logger.LogInformation("Received request to get data for player: {playerId}", playerId);
-                var player = _repo.GetPlayerById(playerId);
+                var player = _repo.GetPlayerByEmail(playerId);
                 return Ok(player);
             }
             catch (Exception ex)

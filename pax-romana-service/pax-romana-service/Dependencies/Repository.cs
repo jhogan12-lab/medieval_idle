@@ -23,8 +23,6 @@ namespace pax_romana_service.Dependencies
 
         public async Task<IEnumerable<Generator>> GetGenerators()
         {
-
-
             using var cnn = new NpgsqlConnection(_config["ConnectionStrings:pax_romana"]);
             await cnn.OpenAsync();
 
@@ -39,9 +37,46 @@ namespace pax_romana_service.Dependencies
 
         #region Player
 
-        public Player GetPlayerById(int playerId)
+        public async Task<Player> GetPlayerByEmail(string email)
         {
-            return new Player();
+            using var cnn = new NpgsqlConnection(_config["ConnectionStrings:pax_romana"]);
+            await cnn.OpenAsync();
+
+            var player = await cnn.QuerySingleOrDefaultAsync<Player>(
+                "SELECT * FROM dbo.playerbyemail_get(@email);",
+                new { email }
+            );
+
+            return player ?? new Player();
+        }
+
+        public async Task<Player> GetPlayerByGoogleId(string googleId)
+        {
+            using var cnn = new NpgsqlConnection(_config["ConnectionStrings:pax_romana"]);
+            await cnn.OpenAsync();
+
+            var player = await cnn.QuerySingleOrDefaultAsync<Player>(
+                "SELECT * FROM dbo.playerbygoogleId_get(@googleId);",
+                new { googleId }
+            );
+
+            return player ?? new Player();
+        }
+
+        public async Task<Player> CreatePlayer(Player newPlayer)
+        {
+            using var cnn = new NpgsqlConnection(_config["ConnectionStrings:pax_romana"]);
+            await cnn.OpenAsync();
+
+            var player = await cnn.QuerySingleOrDefaultAsync<Player>(
+                "SELECT * FROM dbo.createplayerforgoogleaccount_get(@email, @googleId)",
+                new
+                {
+                    newPlayer?.Email,
+                    newPlayer?.GoogleId
+                });
+
+            return player ?? new Player();
         }
 
         #endregion
